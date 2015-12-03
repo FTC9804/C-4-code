@@ -35,9 +35,9 @@ public class DriverControl extends OpMode{
             DriveLeft = hardwareMap.dcMotor.get("m2");
             BallLift = hardwareMap.dcMotor.get("m3");
 
-            ballTiltPower = 0.5;  // 0.5 is no motion (CR servo)
+            ballTiltPower = 0.5;                                 // 0.5 is no motion (CR servo)
 
-            BallTilt.setPosition(ballTiltPower);    //this sets motion not position
+            BallTilt.setPosition(ballTiltPower);                 //this sets motion not position
             DriveLeft.setDirection(DcMotor.Direction.REVERSE);   // reverses left motor for uniform drive commands
 
         }
@@ -47,6 +47,7 @@ public class DriverControl extends OpMode{
         public void loop() {
 
             //Driving Functionality using Gamepad1 (driver)
+            //avoid dead zone of +/- 10 percent of joystick range
 
             if (Math.abs(gamepad1.right_stick_y) > 0.1){
 
@@ -68,6 +69,7 @@ public class DriverControl extends OpMode{
 
             DriveRight.setPower(drivePowerRight);
             DriveLeft.setPower(drivePowerLeft);
+
 
             // Ball Lift Functionality using D-Pad GameController 2 (gunner)
             if(gamepad2.dpad_up){
