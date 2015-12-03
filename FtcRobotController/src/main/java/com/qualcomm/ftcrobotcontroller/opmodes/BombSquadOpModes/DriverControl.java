@@ -15,12 +15,12 @@ public class DriverControl extends OpMode{
         DcMotor DriveRight;
         DcMotor DriveLeft;
 
-
-        double ballTiltPower;
-        double driveGain = -1;
+        double ballLiftPower = 1;       //DC Motor Power
         double ballLiftGain = 1;
-        double ballTiltGain = 1;
-
+        double ballTiltPower;           //CR Servo direction and rate
+        double ballTiltGain = 0.7;      //needs tuning, twitchy going down, slow coming up
+        double drivePower = 0;
+        double driveGain = -1;
 
 
 
@@ -49,32 +49,35 @@ public class DriverControl extends OpMode{
             DriveRight.setPower(gamepad1.right_stick_y * driveGain);
             DriveLeft.setPower(gamepad1.left_stick_y * driveGain);
 
+            // Ball Lift Functionality using D-Pad GameController 2 (gunner)
             if(gamepad2.dpad_up){
 
-                BallLift.setPower(ballLiftGain);
+                BallLift.setPower(ballLiftPower * ballLiftGain);
 
-            }
-            //Ball Dropper Functionality.
-            if (gamepad2.a) {
-                // if the A button is pushed on gamepad1, turn the
-                ballTiltPower = 1;
+            } else if(gamepad2.dpad_down){
 
-                BallTilt.setPosition(ballTiltPower * ballTiltGain);
-
-            }else if (gamepad2.y){
-
-                ballTiltPower = -1;
-
-                BallTilt.setPosition(ballTiltPower * ballTiltGain);
-
-            } else if (gamepad2.x) {
-
-                ballTiltPower = 0.5;
-
-                BallTilt.setPosition((ballTiltPower * ballTiltGain));
+                BallLift.setPower(-ballLiftPower * ballLiftGain);
 
             } else {
 
+                BallLift.setPower(0);
+
+            }
+
+
+            //Ball Tilt Functionality using D-Pad GameController 2 (gunner)
+            if (gamepad2.dpad_right) {
+                // if right dpad is pushed on gamepad2, turn the Tilt to the right
+                ballTiltPower = 0.5 + (0.5 * ballTiltGain);
+                BallTilt.setPosition(ballTiltPower);
+
+            }else if (gamepad2.dpad_left){
+                // if left dpad is pushed on gamepad2, turn the Tilt to the left
+                ballTiltPower = 0.5 - (0.5 * ballTiltGain);
+                BallTilt.setPosition(ballTiltPower);
+
+            } else {
+                //if dpad is not being used, don't tilt
                 BallTilt.setPosition(0.5);
 
             }
