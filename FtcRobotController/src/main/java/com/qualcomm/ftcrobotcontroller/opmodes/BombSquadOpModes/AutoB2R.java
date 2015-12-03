@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes.MadeOpModes;
+package com.qualcomm.ftcrobotcontroller.opmodes.BombSquadOpModes;
 
 /**
  * Created by etiennelunetta on 12/1/15.

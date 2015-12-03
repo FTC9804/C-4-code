@@ -33,6 +33,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
+import com.qualcomm.ftcrobotcontroller.opmodes.BombSquadOpModes.*;
 
 /**
  * Register Op Modes
@@ -61,7 +62,17 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("K9TeleOp", K9TeleOp.class);
     manager.register("K9Line", K9Line.class);
     manager.register ("PushBotAuto", PushBotAuto.class);
-    manager.register ("PushBotManual", PushBotManual.class);
+    manager.register ("DriverControl", DriverControl.class);
+    manager.register ("AutoB1B", AutoB1B.class);
+    manager.register ("AutoB1R", AutoB1R.class);
+    manager.register ("AutoB2B", AutoB2B.class);
+    manager.register ("AutoB2R", AutoB2R.class);
+    manager.register ("AutoR1B", AutoR1B.class);
+    manager.register ("AutoR1R", AutoR1R.class);
+    manager.register ("AutoR2B", AutoR2B.class);
+    manager.register ("AutoR2R", AutoR2R.class);
+
+
 
 
 
