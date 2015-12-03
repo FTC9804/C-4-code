@@ -17,10 +17,11 @@ public class DriverControl extends OpMode{
 
         double ballLiftPower = 1;       //DC Motor Power
         double ballLiftGain = 1;
-        double ballTiltPower;           //CR Servo direction and rate
+        double ballTiltPower;           //CR Servo direction and rate (0.5 is stopped)
         double ballTiltGain = 0.7;      //needs tuning, twitchy going down, slow coming up
-        double drivePower = 0;
-        double driveGain = -1;
+        double drivePowerRight;
+        double drivePowerLeft;
+        double driveGain = 1;
 
 
 
@@ -45,9 +46,28 @@ public class DriverControl extends OpMode{
         @Override
         public void loop() {
 
-            // write the values to the motors
-            DriveRight.setPower(gamepad1.right_stick_y * driveGain);
-            DriveLeft.setPower(gamepad1.left_stick_y * driveGain);
+            //Driving Functionality using Gamepad1 (driver)
+
+            if (Math.abs(gamepad1.right_stick_y) > 0.1){
+
+                drivePowerRight = gamepad1.right_stick_y * driveGain;
+
+            } else {
+
+                drivePowerRight = 0;
+            }
+
+            if (Math.abs(gamepad1.left_stick_y) > 0.1){
+
+                drivePowerLeft = gamepad1.left_stick_y * driveGain;
+
+            } else {
+
+                drivePowerLeft = 0;
+            }
+
+            DriveRight.setPower(drivePowerRight);
+            DriveLeft.setPower(drivePowerLeft);
 
             // Ball Lift Functionality using D-Pad GameController 2 (gunner)
             if(gamepad2.dpad_up){
@@ -64,7 +84,7 @@ public class DriverControl extends OpMode{
 
             }
 
-
+            //Need to verify if +1 rotates to right (0 to left)
             //Ball Tilt Functionality using D-Pad GameController 2 (gunner)
             if (gamepad2.dpad_right) {
                 // if right dpad is pushed on gamepad2, turn the Tilt to the right
