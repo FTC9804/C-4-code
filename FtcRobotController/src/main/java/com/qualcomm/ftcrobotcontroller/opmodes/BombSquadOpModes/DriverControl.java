@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by etiennelunetta on 12/2/15.
+ * This v2 adds functionality for extending and rotating arms
  */
+
 public class DriverControl extends OpMode{
 
         //Object declarations
@@ -14,6 +16,8 @@ public class DriverControl extends OpMode{
         DcMotor BallLift;
         DcMotor DriveRight;
         DcMotor DriveLeft;
+    DcMotor ArmLift;
+    DcMotor ArmExtends;
 
         double ballLiftPower = 1;       //DC Motor Power
         double ballLiftGain = 1;
@@ -22,6 +26,10 @@ public class DriverControl extends OpMode{
         double drivePowerRight;
         double drivePowerLeft;
         double driveGain = 1;
+    double armLiftPower;
+    double armLiftGain = 1;
+    double armExtendPower;
+    double armExtendGain = 1;
 
 
 
@@ -103,5 +111,30 @@ public class DriverControl extends OpMode{
                 BallTilt.setPosition(0.5);
 
             }
+
+            //Arm Functionality using joysticks gamepad2 (gunner)
+            //avoid dead zone of +/- 10 percent of joystick range
+
+            if (Math.abs(gamepad2.left_stick_y) > 0.1) {
+
+                armLiftPower = gamepad2.left_stick_y * armLiftGain;
+
+            } else {
+
+                armLiftPower = 0;
+            }
+
+            if (Math.abs(gamepad2.right_stick_y) > 0.1) {
+
+                armExtendPower = gamepad2.right_stick_y * armExtendGain;
+
+            } else {
+
+                armExtendPower = 0;
+            }
+
+            ArmLift.setPower(armLiftPower);
+            ArmExtends.setPower(armExtendPower);
+
         }
     }
