@@ -6,39 +6,52 @@ import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by etiennelunetta on 12/2/15.
- * This v2 adds functionality for extending and rotating arms
+ * This v3 adds functionality for flippers in front of treads
  */
 
 public class DriverControl extends OpMode{
 
-        //Object declarations
-        Servo BallTilt;
-        DcMotor BallLift;
-        DcMotor DriveRight;
-        DcMotor DriveLeft;
+    //Object declarations
+
+    Servo RightFlipper;
+    Servo LeftFlipper;
+    Servo BallTilt;
+    DcMotor BallLift;
+    DcMotor DriveRight;
+    DcMotor DriveLeft;
     DcMotor ArmLift;
     DcMotor ArmExtends;
 
-        double ballLiftPower = 1;       //DC Motor Power
-        double ballLiftGain = 1;
-        double ballTiltPower;           //CR Servo direction and rate (0.5 is stopped)
-        double ballTiltGain = 0.7;      //needs tuning, twitchy going down, slow coming up
-        double drivePowerRight;
-        double drivePowerLeft;
-        double driveGain = 1;
+    double ballLiftPower = 1;       //DC Motor Power
+    double ballLiftGain = 1;
+    double ballTiltPower;           //CR Servo direction and rate (0.5 is stopped)
+    double ballTiltGain = 0.7;      //needs tuning, twitchy going down, slow coming up
+    double drivePowerRight;
+    double drivePowerLeft;
+    double driveGain = 1;
     double armLiftPower;
     double armLiftGain = 1;
     double armExtendPower;
     double armExtendGain = 1;
 
+    //variables for positioning the flippers. Need to be changed!!
+
+    double flipperOutPositionRight = 1.0;
+    double flipperOutPositionLeft = 0.0;            //opposite of the right because it is facing the other direction
+    double flipperInPositionRight = 0.0;
+    double flipperInPositionLeft = 1.0;             //opposite of the right because it is facing the other direction
 
 
-        @Override
+    @Override
         public void init() {
 
             //Name the devices
 
-            BallTilt = hardwareMap.servo.get("s1");
+        RightFlipper = hardwareMap.servo.get("s1");         //flippers are not CR servos
+        LeftFlipper = hardwareMap.servo.get("s2");
+
+        BallTilt = hardwareMap.servo.get("s3");
+
             DriveRight = hardwareMap.dcMotor.get("m1");
             DriveLeft = hardwareMap.dcMotor.get("m2");
             BallLift = hardwareMap.dcMotor.get("m3");
@@ -135,6 +148,21 @@ public class DriverControl extends OpMode{
 
             ArmLift.setPower(armLiftPower);
             ArmExtends.setPower(armExtendPower);
+
+            // block/ball flipper functionality
+
+
+            if (gamepad1.right_bumper) {
+
+                RightFlipper.setPosition(flipperOutPositionRight);
+                LeftFlipper.setPosition(flipperOutPositionLeft);
+
+            } else {
+
+                RightFlipper.setPosition(flipperInPositionRight);
+                LeftFlipper.setPosition(flipperInPositionLeft);
+
+            }
 
         }
     }
