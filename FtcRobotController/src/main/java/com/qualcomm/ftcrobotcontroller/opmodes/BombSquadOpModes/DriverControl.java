@@ -80,6 +80,9 @@ public class DriverControl extends OpMode{
                 driveGain = 1;
 
             } else {
+
+                driveGain = 1;
+
             }
 
             if (gamepad2.x) {
@@ -98,6 +101,12 @@ public class DriverControl extends OpMode{
                 armExtendGain = 1;
 
             } else {
+
+                ballLiftGain = 1;
+                ballTiltGain = 1;
+                armLiftGain = 1;
+                armExtendGain = 1;
+
             }
 
             //Driving Functionality using Gamepad1 (driver)
@@ -196,6 +205,9 @@ public class DriverControl extends OpMode{
                 RightFlipper.setPosition(flickerDown);
 
             } else {
+
+                RightFlipper.setPosition(flickerDown);
+
             }
 
             if (gamepad1.left_bumper) {
@@ -207,6 +219,8 @@ public class DriverControl extends OpMode{
                 LeftFlipper.setPosition(flickerUp);
 
             } else {
+
+                LeftFlipper.setPosition(flickerUp);
             }
 
         }
