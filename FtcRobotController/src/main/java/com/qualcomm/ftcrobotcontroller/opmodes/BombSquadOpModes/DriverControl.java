@@ -160,7 +160,6 @@ public class DriverControl extends OpMode{
             if (gamepad1.right_bumper) {
 
                 RightFlipper.setPosition(flipperOutPositionRight);
-                LeftFlipper.setPosition(flipperOutPositionLeft);
 
             } else {
 
@@ -168,6 +167,6 @@ public class DriverControl extends OpMode{
                 LeftFlipper.setPosition(flipperNotMoving);
 
             }
-
+            LeftFlipper.setPosition(flipperOutPositionLeft);
         }
     }
