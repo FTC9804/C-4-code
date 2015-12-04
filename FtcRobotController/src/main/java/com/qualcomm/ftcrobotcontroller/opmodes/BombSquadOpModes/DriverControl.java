@@ -167,6 +167,7 @@ public class DriverControl extends OpMode{
                 LeftFlipper.setPosition(flipperNotMoving);
 
             }
+
             LeftFlipper.setPosition(flipperOutPositionLeft);
         }
     }
