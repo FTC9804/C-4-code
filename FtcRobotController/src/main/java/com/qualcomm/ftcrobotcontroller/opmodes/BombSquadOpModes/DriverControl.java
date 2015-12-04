@@ -20,7 +20,8 @@ public class DriverControl extends OpMode{
     DcMotor DriveRight;
     DcMotor DriveLeft;
     DcMotor ArmLift;
-    DcMotor ArmExtends;
+    DcMotor RightArmExtends;
+    DcMotor LeftArmExtends;
 
     double ballLiftPower = 1;       //DC Motor Power
     double ballLiftGain = 1;
@@ -38,9 +39,7 @@ public class DriverControl extends OpMode{
 
     double flipperOutPositionRight = 1.0;
     double flipperOutPositionLeft = 0.0;            //opposite of the right because it is facing the other direction
-    double flipperInPositionRight = 0.0;
-    double flipperInPositionLeft = 1.0;             //opposite of the right because it is facing the other direction
-
+    double flipperNotMoving = 0.5;
 
     @Override
         public void init() {
@@ -52,14 +51,19 @@ public class DriverControl extends OpMode{
 
         BallTilt = hardwareMap.servo.get("s3");
 
-            DriveRight = hardwareMap.dcMotor.get("m1");
-            DriveLeft = hardwareMap.dcMotor.get("m2");
-            BallLift = hardwareMap.dcMotor.get("m3");
+        DriveRight = hardwareMap.dcMotor.get("m2");
+        DriveLeft = hardwareMap.dcMotor.get("m1");
+        BallLift = hardwareMap.dcMotor.get("m3");
+        RightArmExtends = hardwareMap.dcMotor.get("m4");
+        LeftArmExtends = hardwareMap.dcMotor.get("m5");
+        ArmLift = hardwareMap.dcMotor.get("m6");
 
-            ballTiltPower = 0.5;                                 // 0.5 is no motion (CR servo)
+        ballTiltPower = 0.5;                                 // 0.5 is no motion (CR servo)
 
-            BallTilt.setPosition(ballTiltPower);                 //this sets motion not position
-            DriveLeft.setDirection(DcMotor.Direction.REVERSE);   // reverses left motor for uniform drive commands
+        BallTilt.setPosition(ballTiltPower);                 //this sets motion not position
+        DriveLeft.setDirection(DcMotor.Direction.REVERSE);   // reverses left motor for uniform drive commands
+        RightFlipper.setPosition(0.5);
+        LeftFlipper.setPosition(0.5);
 
         }
 
@@ -95,11 +99,11 @@ public class DriverControl extends OpMode{
             // Ball Lift Functionality using D-Pad GameController 2 (gunner)
             if(gamepad2.dpad_up){
 
-                BallLift.setPower(ballLiftPower * ballLiftGain);
+                BallLift.setPower(-ballLiftPower * ballLiftGain);
 
             } else if(gamepad2.dpad_down){
 
-                BallLift.setPower(-ballLiftPower * ballLiftGain);
+                BallLift.setPower(ballLiftPower * ballLiftGain);
 
             } else {
 
@@ -111,12 +115,12 @@ public class DriverControl extends OpMode{
             //Ball Tilt Functionality using D-Pad GameController 2 (gunner)
             if (gamepad2.dpad_right) {
                 // if right dpad is pushed on gamepad2, turn the Tilt to the right
-                ballTiltPower = 0.5 + (0.5 * ballTiltGain);
+                ballTiltPower = 0.5 - (0.5 * ballTiltGain);
                 BallTilt.setPosition(ballTiltPower);
 
             }else if (gamepad2.dpad_left){
                 // if left dpad is pushed on gamepad2, turn the Tilt to the left
-                ballTiltPower = 0.5 - (0.5 * ballTiltGain);
+                ballTiltPower = 0.5 + (0.5 * ballTiltGain);
                 BallTilt.setPosition(ballTiltPower);
 
             } else {
@@ -147,7 +151,8 @@ public class DriverControl extends OpMode{
             }
 
             ArmLift.setPower(armLiftPower);
-            ArmExtends.setPower(armExtendPower);
+            RightArmExtends.setPower(armExtendPower);
+            LeftArmExtends.setPower(armExtendPower);
 
             // block/ball flipper functionality
 
@@ -159,8 +164,8 @@ public class DriverControl extends OpMode{
 
             } else {
 
-                RightFlipper.setPosition(flipperInPositionRight);
-                LeftFlipper.setPosition(flipperInPositionLeft);
+                RightFlipper.setPosition(flipperNotMoving);
+                LeftFlipper.setPosition(flipperNotMoving);
 
             }
 
