@@ -37,9 +37,9 @@ public class DriverControl extends OpMode{
 
     //variables for positioning the flippers. Need to be changed!!
 
-    double flipperOutPositionRight = 1.0;
-    double flipperOutPositionLeft = 0.0;            //opposite of the right because it is facing the other direction
-    double flipperNotMoving = 0.5;
+    double flickerUp = 0.75;
+    double flickerDown = 0.25;
+
 
     @Override
         public void init() {
@@ -70,6 +70,35 @@ public class DriverControl extends OpMode{
 
         @Override
         public void loop() {
+
+            if (gamepad1.x) {
+
+                driveGain = 0.5;
+
+            } else if (gamepad1.y) {
+
+                driveGain = 1;
+
+            } else {
+            }
+
+            if (gamepad2.x) {
+
+                ballLiftGain = 0.5;
+                ballTiltGain = 0.5;
+                armLiftGain = 0.5;
+                armExtendGain = 0.5;
+
+
+            } else if (gamepad2.y) {
+
+                ballLiftGain = 1;
+                ballTiltGain = 1;
+                armLiftGain = 1;
+                armExtendGain = 1;
+
+            } else {
+            }
 
             //Driving Functionality using Gamepad1 (driver)
             //avoid dead zone of +/- 10 percent of joystick range
@@ -154,20 +183,31 @@ public class DriverControl extends OpMode{
             RightArmExtends.setPower(armExtendPower);
             LeftArmExtends.setPower(armExtendPower);
 
+
             // block/ball flipper functionality
 
 
             if (gamepad1.right_bumper) {
 
-                RightFlipper.setPosition(flipperOutPositionRight);
+                RightFlipper.setPosition(flickerUp);
+
+            } else if (gamepad1.right_trigger > 0.5) {
+
+                RightFlipper.setPosition(flickerDown);
 
             } else {
-
-                RightFlipper.setPosition(flipperNotMoving);
-                LeftFlipper.setPosition(flipperNotMoving);
-
             }
 
-            LeftFlipper.setPosition(flipperOutPositionLeft);
+            if (gamepad1.left_bumper) {
+
+                LeftFlipper.setPosition(flickerDown);          //flicker down because it is on the opposite side
+
+            } else if (gamepad1.left_trigger < 0.5) {
+
+                LeftFlipper.setPosition(flickerUp);
+
+            } else {
+            }
+
         }
     }
