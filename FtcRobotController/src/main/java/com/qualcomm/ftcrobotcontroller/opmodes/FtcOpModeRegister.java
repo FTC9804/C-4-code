@@ -71,6 +71,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register ("AutoR1R", AutoR1R.class);
     manager.register ("AutoR2B", AutoR2B.class);
     manager.register ("AutoR2R", AutoR2R.class);
+    manager.register("TankDrive", TankDrive.class);
 
 
 

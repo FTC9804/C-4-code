@@ -13,8 +13,8 @@ public class DriverControl extends OpMode{
 
     //Object declarations
 
-    Servo RightFlipper;
-    Servo LeftFlipper;
+    Servo RightFlicker;
+    Servo LeftFlicker;
     Servo BallTilt;
     DcMotor BallLift;
     DcMotor DriveRight;
@@ -37,8 +37,22 @@ public class DriverControl extends OpMode{
 
     //variables for positioning the flippers. Need to be changed!!
 
-    double flickerUp = 0.75;
-    double flickerDown = 0.25;
+    double rightFlickerPosition = 0.5;
+    double leftFlickerPosition = 0.5;
+
+    //Not actually gain, just the angle changed every time corresponding button is clicked
+
+    double flickerGain = 0.07;
+
+
+    double flickerMax = 0.0;
+    double flickerMin = 1.0;
+
+
+    final static double RIGHT_FLICKER_MIN_RANGE = 0.0;
+    final static double RIGHT_FLICKER_MAX_RANGE = 1.0;
+    final static double LEFT_FLICKER_MIN_RANGE = 0.0;       //Opposite because it is on opposite sides
+    final static double LEFT_FLICKER_MAX_RANGE = 1.0;       //Opposite because it is on opposite sides
 
 
     @Override
@@ -46,8 +60,8 @@ public class DriverControl extends OpMode{
 
             //Name the devices
 
-        RightFlipper = hardwareMap.servo.get("s1");         //flippers are not CR servos
-        LeftFlipper = hardwareMap.servo.get("s2");
+        RightFlicker = hardwareMap.servo.get("s1");         //flippers are not CR servos
+        LeftFlicker = hardwareMap.servo.get("s2");
 
         BallTilt = hardwareMap.servo.get("s3");
 
@@ -62,8 +76,8 @@ public class DriverControl extends OpMode{
 
         BallTilt.setPosition(ballTiltPower);                 //this sets motion not position
         DriveLeft.setDirection(DcMotor.Direction.REVERSE);   // reverses left motor for uniform drive commands
-        RightFlipper.setPosition(0.5);
-        LeftFlipper.setPosition(0.5);
+        RightFlicker.setPosition(rightFlickerPosition);
+        LeftFlicker.setPosition(leftFlickerPosition);
 
         }
 
@@ -149,7 +163,6 @@ public class DriverControl extends OpMode{
 
             }
 
-            //Need to verify if +1 rotates to right (0 to left)
             //Ball Tilt Functionality using D-Pad GameController 2 (gunner)
             if (gamepad2.dpad_right) {
                 // if right dpad is pushed on gamepad2, turn the Tilt to the right
@@ -193,35 +206,43 @@ public class DriverControl extends OpMode{
             LeftArmExtends.setPower(armExtendPower);
 
 
-            // block/ball flipper functionality
-
-
+            // block/ball flipper functionality using gamepad 1 (driver)
             if (gamepad1.right_bumper) {
 
-                RightFlipper.setPosition(flickerUp);
+                rightFlickerPosition -= flickerGain;
+                RightFlicker.setPosition(rightFlickerPosition);
 
             } else if (gamepad1.right_trigger > 0.5) {
 
-                RightFlipper.setPosition(flickerDown);
+                rightFlickerPosition += flickerGain;
+                RightFlicker.setPosition(rightFlickerPosition);
 
             } else {
 
-                RightFlipper.setPosition(flickerDown);
+                // RightFlicker.setPosition(rightFlickerPosition);
 
             }
 
             if (gamepad1.left_bumper) {
 
-                LeftFlipper.setPosition(flickerDown);          //flicker down because it is on the opposite side
+                leftFlickerPosition += flickerGain;
+                LeftFlicker.setPosition(leftFlickerPosition);
 
-            } else if (gamepad1.left_trigger < 0.5) {
+            } else if (gamepad1.left_trigger > 0.5) {
 
-                LeftFlipper.setPosition(flickerUp);
+                leftFlickerPosition -= flickerGain;
+                LeftFlicker.setPosition(leftFlickerPosition);
 
             } else {
 
-                LeftFlipper.setPosition(flickerUp);
+                // LeftFlicker.setPosition(leftFlickerPosition);
+
             }
+
+
+            //Clip the positions as to not exceed the required angles
+            rightFlickerPosition = Range.clip(rightFlickerPosition, RIGHT_FLICKER_MIN_RANGE, RIGHT_FLICKER_MAX_RANGE);
+            leftFlickerPosition = Range.clip(leftFlickerPosition, LEFT_FLICKER_MIN_RANGE, LEFT_FLICKER_MAX_RANGE);
 
         }
     }
