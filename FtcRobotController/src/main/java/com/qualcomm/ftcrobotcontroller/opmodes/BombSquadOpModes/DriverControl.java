@@ -45,14 +45,10 @@ public class DriverControl extends OpMode{
     double flickerGain = 0.07;
 
 
-    double flickerMax = 0.0;
-    double flickerMin = 1.0;
-
-
-    final static double RIGHT_FLICKER_MIN_RANGE = 0.0;
-    final static double RIGHT_FLICKER_MAX_RANGE = 1.0;
-    final static double LEFT_FLICKER_MIN_RANGE = 0.0;       //Opposite because it is on opposite sides
-    final static double LEFT_FLICKER_MAX_RANGE = 1.0;       //Opposite because it is on opposite sides
+    final static double RIGHT_FLICKER_MIN_RANGE = 0.15;
+    final static double RIGHT_FLICKER_MAX_RANGE = 0.9;
+    final static double LEFT_FLICKER_MIN_RANGE = 0.15;       //Opposite because it is on opposite sides
+    final static double LEFT_FLICKER_MAX_RANGE = 0.9;       //Opposite because it is on opposite sides
 
 
     @Override
@@ -87,7 +83,7 @@ public class DriverControl extends OpMode{
 
             if (gamepad1.x) {
 
-                driveGain = 0.5;
+                driveGain = 0.2;
 
             } else if (gamepad1.y) {
 
@@ -95,16 +91,15 @@ public class DriverControl extends OpMode{
 
             } else {
 
-                driveGain = 1;
 
             }
 
             if (gamepad2.x) {
 
-                ballLiftGain = 0.5;
-                ballTiltGain = 0.5;
-                armLiftGain = 0.5;
-                armExtendGain = 0.5;
+                ballLiftGain = 0.2;
+                ballTiltGain = 0.2;
+                armLiftGain = 0.2;
+                armExtendGain = 0.2;
 
 
             } else if (gamepad2.y) {
@@ -115,11 +110,6 @@ public class DriverControl extends OpMode{
                 armExtendGain = 1;
 
             } else {
-
-                ballLiftGain = 1;
-                ballTiltGain = 1;
-                armLiftGain = 1;
-                armExtendGain = 1;
 
             }
 
@@ -151,11 +141,11 @@ public class DriverControl extends OpMode{
             // Ball Lift Functionality using D-Pad GameController 2 (gunner)
             if(gamepad2.dpad_up){
 
-                BallLift.setPower(-ballLiftPower * ballLiftGain);
+                BallLift.setPower(ballLiftPower * ballLiftGain);
 
             } else if(gamepad2.dpad_down){
 
-                BallLift.setPower(ballLiftPower * ballLiftGain);
+                BallLift.setPower(-ballLiftPower * ballLiftGain);
 
             } else {
 
@@ -210,12 +200,10 @@ public class DriverControl extends OpMode{
             if (gamepad1.right_bumper) {
 
                 rightFlickerPosition -= flickerGain;
-                RightFlicker.setPosition(rightFlickerPosition);
 
             } else if (gamepad1.right_trigger > 0.5) {
 
                 rightFlickerPosition += flickerGain;
-                RightFlicker.setPosition(rightFlickerPosition);
 
             } else {
 
@@ -226,12 +214,10 @@ public class DriverControl extends OpMode{
             if (gamepad1.left_bumper) {
 
                 leftFlickerPosition += flickerGain;
-                LeftFlicker.setPosition(leftFlickerPosition);
 
             } else if (gamepad1.left_trigger > 0.5) {
 
                 leftFlickerPosition -= flickerGain;
-                LeftFlicker.setPosition(leftFlickerPosition);
 
             } else {
 
@@ -243,6 +229,10 @@ public class DriverControl extends OpMode{
             //Clip the positions as to not exceed the required angles
             rightFlickerPosition = Range.clip(rightFlickerPosition, RIGHT_FLICKER_MIN_RANGE, RIGHT_FLICKER_MAX_RANGE);
             leftFlickerPosition = Range.clip(leftFlickerPosition, LEFT_FLICKER_MIN_RANGE, LEFT_FLICKER_MAX_RANGE);
+
+            LeftFlicker.setPosition(leftFlickerPosition);
+            RightFlicker.setPosition(rightFlickerPosition);
+
 
         }
     }
