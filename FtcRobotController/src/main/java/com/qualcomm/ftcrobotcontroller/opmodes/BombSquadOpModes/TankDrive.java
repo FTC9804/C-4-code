@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-/**
- * Created by etiennelunetta on 12/5/15.
- */
 public class TankDrive extends OpMode {
 
 
